@@ -1,6 +1,8 @@
 {
   "version": 2,
   "projects": {
+    "backseat-client": "apps/backseat-client",
+    "backseat-client-e2e": "apps/backseat-client-e2e",
     "backseat-server": "apps/backseat-server"
   }
 }

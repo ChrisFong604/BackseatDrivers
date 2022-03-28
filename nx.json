@@ -29,5 +29,18 @@
       }
     ]
   },
-  "defaultProject": "backseat-server"
+  "defaultProject": "backseat-server",
+  "generators": {
+    "@nrwl/react": {
+      "application": {
+        "babel": true
+      }
+    },
+    "@nrwl/next": {
+      "application": {
+        "style": "scss",
+        "linter": "eslint"
+      }
+    }
+  }
 }
