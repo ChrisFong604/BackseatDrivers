@@ -62,30 +62,30 @@ model Driver {
 }
 
 model Request {
-  request_id Int @id @unique @default(autoincrement())
+  request_id String @id @unique @default(cuid())
 
   passenger          User   @relation(fields: [passenger_id], references: [id])
   passenger_id       String
   requester_location String
 
-  requested_ride    Ride @relation(fields: [requested_ride_id], references: [ride_id])
-  requested_ride_id Int
+  requested_ride    Ride   @relation(fields: [requested_ride_id], references: [ride_id])
+  requested_ride_id String
 
   status Boolean @default(false) //true when accepted, else false
 }
 
 model Ride {
-  ride_id            Int       @id @default(autoincrement())
+  ride_id            String    @id @default(cuid())
   passenger_requests Request[]
 
   driver    Driver @relation(fields: [driver_id], references: [driver_id])
   driver_id String
 
-  host_name          String?
-  phone_number       String?
-  email              String?
-  description        String?
-  is_full            Boolean?
+  host_name          String
+  phone_number       String
+  email              String
+  description        String
+  is_full            Boolean @default(false)
   date_of_ride       String
   number_of_seats    Int
   departure_location String
