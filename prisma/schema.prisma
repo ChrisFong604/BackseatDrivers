@@ -1,0 +1,93 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// generator nestjsDto {
+//   provider                        = "prisma-generator-nestjs-dto"
+//   output                          = "../src/generated/nestjs-dto"
+//   outputToNestJsResourceStructure = "false"
+//   exportRelationModifierClasses   = "true"
+//   reExport                        = "false"
+//   createDtoPrefix                 = "Create"
+//   updateDtoPrefix                 = "Update"
+//   dtoSuffix                       = "Dto"
+//   entityPrefix                    = ""
+//   entitySuffix                    = ""
+//   fileNamingStyle                 = "camel"
+// }
+
+// generator jsonSchema {
+//   provider                 = "prisma-json-schema-generator"
+//   keepRelationScalarFields = "true"
+// }
+
+// generator docs {
+//   provider = "node node_modules/prisma-docs-generator"
+// }
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model School {
+  school_name     String @id @unique
+  school_location String
+  users           User[]
+}
+
+model User {
+  id           String  @id @default(cuid())
+  school       School  @relation(fields: [school_name], references: [school_name])
+  school_name  String
+  first_name   String  @db.VarChar(50)
+  last_name    String  @db.VarChar(50)
+  email        String  @unique
+  address      String? @db.VarChar(255)
+  phone_number String? @unique
+
+  Request Request[]
+  Driver  Driver?
+}
+
+model Driver {
+  id        Int    @id @default(autoincrement())
+  driver    User   @relation(fields: [driver_id], references: [id])
+  driver_id String @unique
+
+  Ride Ride[]
+}
+
+model Request {
+  request_id Int @id @unique @default(autoincrement())
+
+  passenger          User   @relation(fields: [passenger_id], references: [id])
+  passenger_id       String
+  requester_location String
+
+  requested_ride    Ride @relation(fields: [requested_ride_id], references: [ride_id])
+  requested_ride_id Int
+
+  status Boolean @default(false) //true when accepted, else false
+}
+
+model Ride {
+  ride_id            Int       @id @default(autoincrement())
+  passenger_requests Request[]
+
+  driver    Driver @relation(fields: [driver_id], references: [driver_id])
+  driver_id String
+
+  host_name          String?
+  phone_number       String?
+  email              String?
+  description        String?
+  is_full            Boolean?
+  date_of_ride       String
+  number_of_seats    Int
+  departure_location String
+  school_location    String
+}
