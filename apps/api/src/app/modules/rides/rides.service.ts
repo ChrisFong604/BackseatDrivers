@@ -1,10 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { CreateRideDto } from './dto/create-ride.dto';
-import { UpdateRideDto } from './dto/update-ride.dto';
 
 @Injectable()
 export class RidesService {
-  create(createRideDto: CreateRideDto) {
+  create() {
     return 'This action adds a new ride';
   }
 
@@ -13,11 +11,11 @@ export class RidesService {
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} ride`;
+    return `This action returns a ride`;
   }
 
-  update(id: number, updateRideDto: UpdateRideDto) {
-    return `This action updates a #${id} ride`;
+  update() {
+    return `This action updates a  ride`;
   }
 
   remove(id: number) {

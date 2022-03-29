@@ -1,26 +1,18 @@
-import { Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
+import { CreateSchoolDTO } from '../../DTOs/create-school.dto';
 import { SchoolsService } from './schools.service';
 
-const dumb = {
-  school_name: 'Simon Fraser University',
-  school_location: 'Burnaby mountain',
-};
-
-@Controller('schools')
+@Controller()
 export class SchoolsController {
   constructor(private readonly schoolsService: SchoolsService) {}
 
-  @Get()
-  returnString() {
-    return this.schoolsService.returnString();
-  }
-  @Get('/test')
-  testEndpoint() {
-    return this.schoolsService.dumbQuery();
+  @Get('schools')
+  getAllSchools() {
+    return this.schoolsService.findAll();
   }
 
-  @Post('/add')
-  addSchool() {
-    return this.schoolsService.addSchool();
+  @Post('schools/add')
+  addSchool(@Body() createSchoolDto: CreateSchoolDTO) {
+    return this.schoolsService.create(createSchoolDto);
   }
 }

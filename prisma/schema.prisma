@@ -24,6 +24,19 @@
 //   provider = "node node_modules/prisma-docs-generator"
 // }
 
+generator nestjsDto {
+  provider                      = "prisma-generator-nestjs-dto"
+  output                        = "../libs/models/src/DTOs"
+  exportRelationModifierClasses = "true"
+  reExport                      = "false"
+  createDtoPrefix               = "Create"
+  updateDtoPrefix               = "Update"
+  dtoSuffix                     = "DTO"
+  entityPrefix                  = ""
+  entitySuffix                  = ""
+  fileNamingStyle               = "camel"
+}
+
 generator client {
   provider = "prisma-client-js"
 }
