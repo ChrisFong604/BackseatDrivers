@@ -1,6 +1,7 @@
 -- CreateTable
 CREATE TABLE "School" (
     "school_name" TEXT NOT NULL,
+    "school_acronym" VARCHAR(8) NOT NULL,
     "school_location" TEXT NOT NULL,
 
     CONSTRAINT "School_pkey" PRIMARY KEY ("school_name")
@@ -13,8 +14,7 @@ CREATE TABLE "User" (
     "first_name" VARCHAR(50) NOT NULL,
     "last_name" VARCHAR(50) NOT NULL,
     "email" TEXT NOT NULL,
-    "address" VARCHAR(255),
-    "phone_number" TEXT,
+    "phone_number" TEXT NOT NULL,
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );

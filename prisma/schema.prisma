@@ -24,18 +24,18 @@
 //   provider = "node node_modules/prisma-docs-generator"
 // }
 
-generator nestjsDto {
-  provider                      = "prisma-generator-nestjs-dto"
-  output                        = "../libs/models/src/DTOs"
-  exportRelationModifierClasses = "true"
-  reExport                      = "false"
-  createDtoPrefix               = "Create"
-  updateDtoPrefix               = "Update"
-  dtoSuffix                     = "DTO"
-  entityPrefix                  = ""
-  entitySuffix                  = ""
-  fileNamingStyle               = "camel"
-}
+// generator nestjsDto {
+//   provider                      = "prisma-generator-nestjs-dto"
+//   output                        = "../libs/models/src/DTOs"
+//   exportRelationModifierClasses = "true"
+//   reExport                      = "false"
+//   createDtoPrefix               = "Create"
+//   updateDtoPrefix               = "Update"
+//   dtoSuffix                     = "DTO"
+//   entityPrefix                  = ""
+//   entitySuffix                  = ""
+//   fileNamingStyle               = "camel"
+// }
 
 generator client {
   provider = "prisma-client-js"
@@ -48,19 +48,19 @@ datasource db {
 
 model School {
   school_name     String @id @unique
+  school_acronym  String @db.VarChar(8)
   school_location String
   users           User[]
 }
 
 model User {
-  id           String  @id @default(cuid())
-  school       School  @relation(fields: [school_name], references: [school_name])
+  id           String @id @default(cuid())
+  school       School @relation(fields: [school_name], references: [school_name])
   school_name  String
-  first_name   String  @db.VarChar(50)
-  last_name    String  @db.VarChar(50)
-  email        String  @unique
-  address      String? @db.VarChar(255)
-  phone_number String? @unique
+  first_name   String @db.VarChar(50)
+  last_name    String @db.VarChar(50)
+  email        String @unique
+  phone_number String @unique
 
   Request Request[]
   Driver  Driver?

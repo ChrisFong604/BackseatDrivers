@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
-import { CreateSchoolDTO } from '../../DTOs/create-school.dto';
+import { School } from '@prisma/client';
 import { SchoolsService } from './schools.service';
 
 @Controller()
@@ -12,7 +12,7 @@ export class SchoolsController {
   }
 
   @Post('schools/add')
-  addSchool(@Body() createSchoolDto: CreateSchoolDTO) {
-    return this.schoolsService.create(createSchoolDto);
+  addSchool(@Body() school: School) {
+    return this.schoolsService.createSchool(school);
   }
 }

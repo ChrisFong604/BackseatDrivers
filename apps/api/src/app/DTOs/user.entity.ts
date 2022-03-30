@@ -9,8 +9,7 @@ export class User {
   first_name: string;
   last_name: string;
   email: string;
-  address: string | null;
-  phone_number: string | null;
+  phone_number: string;
   Request?: Request[];
   Driver?: Driver | null;
 }

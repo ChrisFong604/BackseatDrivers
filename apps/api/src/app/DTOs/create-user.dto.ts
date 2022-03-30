@@ -1,7 +1,9 @@
+import * as transform from 'class-transformer';
+
 export class CreateUserDTO {
+  school_name: string;
   first_name: string;
   last_name: string;
   email: string;
-  address?: string;
-  phone_number?: string;
+  phone_number: string;
 }
