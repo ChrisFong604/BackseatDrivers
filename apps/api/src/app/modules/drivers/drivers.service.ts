@@ -1,24 +1,40 @@
 import { Injectable } from '@nestjs/common';
+import { Driver } from '@prisma/client';
+import { PrismaService } from '../../prisma/prisma.service';
 
 @Injectable()
 export class DriversService {
-  create() {
-    return 'This action adds a new driver';
+  constructor(private prisma: PrismaService) {}
+
+  async createDriver(user_id: string) {
+    return await this.prisma.driver.create({
+      data: {
+        driver: {
+          connect: {
+            id: user_id,
+          },
+        },
+      },
+    });
   }
 
-  findAll() {
-    return `This action returns all drivers`;
+  async findAll(): Promise<Driver[] | null> {
+    return await this.prisma.driver.findMany({});
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} driver`;
+  async findDriver(id: string): Promise<Driver | null> {
+    return await this.prisma.driver.findUnique({
+      where: {
+        driver_id: id,
+      },
+    });
   }
 
-  update(id: number) {
-    return `This action updates a #${id} driver`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} driver`;
+  async deleteDriver(user_id: string) {
+    return await this.prisma.driver.delete({
+      where: {
+        driver_id: user_id,
+      },
+    });
   }
 }

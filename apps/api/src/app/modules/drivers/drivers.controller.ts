@@ -1,40 +1,27 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from '@nestjs/common';
+import { Controller, Get, Post, Param, Delete } from '@nestjs/common';
 import { DriversService } from './drivers.service';
 
-@Controller('drivers')
+@Controller()
 export class DriversController {
   constructor(private readonly driversService: DriversService) {}
 
-  @Post()
-  create() {
-    return this.driversService.create();
+  @Post('driver/create/:id')
+  create(@Param('id') id: string) {
+    return this.driversService.createDriver(id);
   }
 
-  @Get()
+  @Get('drivers')
   findAll() {
     return this.driversService.findAll();
   }
 
-  @Get(':id')
+  @Get('driver/:id')
   findOne(@Param('id') id: string) {
-    return this.driversService.findOne(+id);
+    return this.driversService.findDriver(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string) {
-    return this.driversService.update(+id);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.driversService.remove(+id);
+  @Delete('driver/delete/:id')
+  deleteDriver(@Param('id') id: string) {
+    return this.driversService.deleteDriver(id);
   }
 }

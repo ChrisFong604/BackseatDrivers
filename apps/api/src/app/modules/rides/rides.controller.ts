@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { RidesService } from './rides.service';
 
@@ -13,10 +14,10 @@ import { RidesService } from './rides.service';
 export class RidesController {
   constructor(private readonly ridesService: RidesService) {}
 
-  @Post()
-  create() {
-    return this.ridesService.create();
-  }
+  // @Post('ride/:id')
+  // create(@Param('id', ParseIntPipe) driver_id: number) {
+  //   return this.ridesService.createRide(driver_id);
+  // }
 
   @Get()
   findAll() {
