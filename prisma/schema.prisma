@@ -47,7 +47,8 @@ datasource db {
 }
 
 model School {
-  school_name     String @id @unique
+  school_id String @id @default(cuid())
+  school_name     String @unique
   school_acronym  String @db.VarChar(8)
   school_location String
   users           User[]
