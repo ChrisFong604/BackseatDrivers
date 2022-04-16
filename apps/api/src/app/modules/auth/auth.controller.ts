@@ -1,13 +1,19 @@
 import { Controller, Get, Post } from '@nestjs/common';
+import { Request } from '@nestjs/common';
 import { User } from '@prisma/client';
+import { AuthService } from './auth.service';
 
 @Controller('auth')
 export class AuthController {
-  @Get('login')
+  constructor(private readonly authService: AuthService) {}
+
   @Post('login')
-  async login(): Promise<any> {
-    return {
-      message: 'Login success',
-    };
+  loginJWT(@Request() req): any {
+    return this.authService.login(req.user);
+  }
+
+  @Get('protected')
+  getLoginRequest(@Request() req): string {
+    return req.user;
   }
 }
