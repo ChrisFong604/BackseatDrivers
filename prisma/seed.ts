@@ -45,6 +45,84 @@ async function main() {
     ],
   });
 
+  await prisma.user.createMany({
+    data: [
+      {
+        school_name: 'Simon Fraser University',
+        first_name: 'Christopher',
+        last_name: 'Fong',
+        email: 'ccffoonngg@gmail.com',
+        phone_number: '604-441-7828',
+      },
+      {
+        school_name: 'Simon Fraser University',
+        first_name: 'David',
+        last_name: 'Lowe',
+        email: 'drlowe@gmail.com',
+        phone_number: '604-808-1732',
+      },
+      {
+        school_name: 'Simon Fraser University',
+        first_name: 'Kevin',
+        last_name: 'Shi',
+        email: 'kshi1738@gmail.com',
+        phone_number: '778-108-1102',
+      },
+      {
+        school_name: 'Simon Fraser University',
+        first_name: 'Hamla',
+        last_name: 'Tzarifik',
+        email: 'HamTza@hotmail.ca',
+        phone_number: '778-441-7828',
+      },
+    ],
+  });
+
+  const studentsUBC = await prisma.user.createMany({
+    data: [
+      {
+        school_name: 'University of British Columbia',
+        first_name: 'Jeremy',
+        last_name: 'Jackson',
+        email: 'JJ@gmail.com',
+        phone_number: '604-320-0525',
+      },
+      {
+        school_name: 'University of British Columbia',
+        first_name: 'Lavar',
+        last_name: 'Ball',
+        email: 'LavarBBB@gmail.com',
+        phone_number: '604-451-0782',
+      },
+      {
+        school_name: 'University of British Columbia',
+        first_name: 'Lamelo',
+        last_name: 'Ball',
+        email: 'LameloBallBBB@gmail.com',
+        phone_number: '778-215-8284',
+      },
+    ],
+  });
+
+  const ChrisDriver = await prisma.user
+    .findUnique({
+      where: { email: 'ccffoonngg@gmail.com' },
+      select: {
+        user_id: true,
+      },
+    })
+    .then(async (user) => {
+      await prisma.driver.create({
+        data: {
+          driver: {
+            connect: {
+              user_id: user.user_id,
+            },
+          },
+        },
+      });
+    });
+
   // const Tyrone = await prisma.user.create({
   //   data: {
   //     school: {
