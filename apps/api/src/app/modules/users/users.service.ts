@@ -16,7 +16,7 @@ export class UsersService {
     return await this.prisma.user.findMany({});
   }
 
-  async findAllStudentsInASchool(school_name: string): Promise<User[]> {
+  async findAllUsersInASchool(school_name: string): Promise<User[]> {
     return await this.prisma.user.findMany({
       where: {
         school_name: school_name,
@@ -24,12 +24,20 @@ export class UsersService {
     });
   }
 
-  async findUser(id: string) {
-    return; /* await this.prisma.user.findUnique({
+  async findUserById(id: string) {
+    return await this.prisma.user.findUnique({
       where: {
-        id: id,
+        user_id: id,
       },
-    }); */
+    });
+  }
+
+  async findUserByEmail(email: string) {
+    return await this.prisma.user.findUnique({
+      where: {
+        email: email,
+      },
+    });
   }
 
   async updateUser(id: string, data: Prisma.UserUpdateInput) {
