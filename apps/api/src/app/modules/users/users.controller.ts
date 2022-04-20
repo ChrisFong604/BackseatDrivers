@@ -26,12 +26,12 @@ export class UsersController {
 
   @Get('users/:school')
   getAllUsersFromASchool(@Param('school') school_name: string) {
-    return this.usersService.findAllStudentsInASchool(school_name);
+    return this.usersService.findAllUsersInASchool(school_name);
   }
 
   @Get('user/:id')
   getUser(@Param('id') id: string) {
-    return this.usersService.findUser(id);
+    return this.usersService.findUserById(id);
   }
 
   @Patch('user/:id')

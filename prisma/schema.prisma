@@ -47,7 +47,7 @@ datasource db {
 }
 
 model School {
-  school_id String @id @default(cuid())
+  school_id       String @id @default(cuid())
   school_name     String @unique
   school_acronym  String @db.VarChar(8)
   school_location String
@@ -55,12 +55,14 @@ model School {
 }
 
 model User {
-  user_id      String @id @default(cuid())
+  user_id  String @id @default(cuid())
+  email    String @unique @db.VarChar(255)
+  password String @db.VarChar(255)
+
   school       School @relation(fields: [school_name], references: [school_name])
   school_name  String
   first_name   String @db.VarChar(50)
   last_name    String @db.VarChar(50)
-  email        String @unique
   phone_number String @unique
 
   Request Request[]
