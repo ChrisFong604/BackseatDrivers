@@ -25,27 +25,27 @@ export class UsersService {
   }
 
   async findUser(id: string) {
-    return await this.prisma.user.findUnique({
+    return; /* await this.prisma.user.findUnique({
       where: {
         id: id,
       },
-    });
+    }); */
   }
 
   async updateUser(id: string, data: Prisma.UserUpdateInput) {
-    return await this.prisma.user.update({
+    return; /* await this.prisma.user.update({
       data,
       where: {
         id: id,
       },
-    });
+    }); */
   }
 
   async deleteUser(id: string) {
-    return await this.prisma.user.delete({
+    return; /* await this.prisma.user.delete({
       where: {
         id: id,
       },
-    });
+    }); */
   }
 }
