@@ -7,7 +7,7 @@ export class DriversService {
   constructor(private prisma: PrismaService) {}
 
   async createDriver(user_id: string) {
-    return await this.prisma.driver.create({
+    return; /* await this.prisma.driver.create({
       data: {
         driver: {
           connect: {
@@ -15,7 +15,7 @@ export class DriversService {
           },
         },
       },
-    });
+    }); */
   }
 
   async findAll(): Promise<Driver[] | null> {
@@ -23,18 +23,18 @@ export class DriversService {
   }
 
   async findDriver(id: string): Promise<Driver | null> {
-    return await this.prisma.driver.findUnique({
+    return; /* await this.prisma.driver.findUnique({
       where: {
         driver_id: id,
       },
-    });
+    }); */
   }
 
   async deleteDriver(user_id: string) {
-    return await this.prisma.driver.delete({
+    return; /* await this.prisma.driver.delete({
       where: {
         driver_id: user_id,
       },
-    });
+    }); */
   }
 }

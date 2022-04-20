@@ -47,7 +47,7 @@ datasource db {
 }
 
 model School {
-  school_id String @id @default(cuid())
+  school_id       String @id @default(cuid())
   school_name     String @unique
   school_acronym  String @db.VarChar(8)
   school_location String
@@ -55,12 +55,14 @@ model School {
 }
 
 model User {
-  id           String @id @default(cuid())
+  user_id  String @id @default(cuid())
+  email    String @unique @db.VarChar(255)
+  password String @db.VarChar(255)
+
   school       School @relation(fields: [school_name], references: [school_name])
   school_name  String
   first_name   String @db.VarChar(50)
   last_name    String @db.VarChar(50)
-  email        String @unique
   phone_number String @unique
 
   Request Request[]
@@ -68,9 +70,9 @@ model User {
 }
 
 model Driver {
-  id        Int    @id @default(autoincrement())
-  driver    User   @relation(fields: [driver_id], references: [id])
-  driver_id String @unique
+  id      Int    @id @default(autoincrement())
+  driver  User   @relation(fields: [user_id], references: [user_id])
+  user_id String @unique
 
   Ride Ride[]
 }
@@ -78,7 +80,7 @@ model Driver {
 model Request {
   request_id String @id @unique @default(cuid())
 
-  passenger          User   @relation(fields: [passenger_id], references: [id])
+  passenger          User   @relation(fields: [passenger_id], references: [user_id])
   passenger_id       String
   requester_location String
 
@@ -92,8 +94,8 @@ model Ride {
   ride_id            String    @id @default(cuid())
   passenger_requests Request[]
 
-  driver    Driver @relation(fields: [driver_id], references: [driver_id])
-  driver_id String
+  driver    Driver @relation(fields: [driver_id], references: [id])
+  driver_id Int
 
   host_name          String
   phone_number       String
