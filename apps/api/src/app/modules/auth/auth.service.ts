@@ -21,8 +21,8 @@ export class AuthService {
     const user = await this.usersService.findUserByEmail(email);
 
     if (user && user.password === password) {
-      const { password, email, ...rest } = user;
-      return rest;
+      const { email, ...rest } = user;
+      return user;
     }
   }
 }
