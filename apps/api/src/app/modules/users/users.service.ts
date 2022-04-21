@@ -2,13 +2,20 @@ import { Injectable } from '@nestjs/common';
 import { Prisma, User } from '@prisma/client';
 import { PrismaService } from '../../prisma/prisma.service';
 
+import { scryptSync, randomBytes, createHash } from 'crypto';
 @Injectable()
 export class UsersService {
   constructor(private readonly prisma: PrismaService) {}
 
   async createUser(data: User): Promise<User> {
+    const salt = randomBytes(16).toString('hex');
+    const hashedPassword = scryptSync(data.password, salt, 64).toString('hex');
+
     return await this.prisma.user.create({
-      data,
+      data: {
+        password: `${salt}:${hashedPassword}`,
+        ...data,
+      },
     });
   }
 
