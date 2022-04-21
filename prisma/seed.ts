@@ -111,24 +111,24 @@ async function main() {
     ],
   });
 
-  const ChrisDriver = await prisma.user
-    .findUnique({
-      where: { email: 'ccffoonngg@gmail.com' },
-      select: {
-        user_id: true,
-      },
-    })
-    .then(async (user) => {
-      await prisma.driver.create({
-        data: {
-          driver: {
-            connect: {
-              user_id: user.user_id,
-            },
-          },
-        },
-      });
-    });
+  // const ChrisDriver = await prisma.user
+  //   .findUnique({
+  //     where: { email: 'ccffoonngg@gmail.com' },
+  //     select: {
+  //       user_id: true,
+  //     },
+  //   })
+  //   .then(async (user) => {
+  //     await prisma.driver.create({
+  //       data: {
+  //         driver: {
+  //           connect: {
+  //             user_id: user.user_id,
+  //           },
+  //         },
+  //       },
+  //     });
+  //   });
 
   // const Tyrone = await prisma.user.create({
   //   data: {

@@ -11,10 +11,15 @@ export class UsersService {
     const salt = randomBytes(16).toString('hex');
     const hashedPassword = scryptSync(data.password, salt, 64).toString('hex');
 
+    const saltedHash = `${salt}:${hashedPassword}`;
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password, ...rest } = data;
+
     return await this.prisma.user.create({
       data: {
-        password: `${salt}:${hashedPassword}`,
-        ...data,
+        password: saltedHash,
+        ...rest,
       },
     });
   }
@@ -47,20 +52,21 @@ export class UsersService {
     });
   }
 
-  async updateUser(id: string, data: Prisma.UserUpdateInput) {
-    return; /* await this.prisma.user.update({
+  async updateUser(user_id: string, data: Prisma.UserUpdateInput) {
+    return await this.prisma.user.update({
       data,
       where: {
-        id: id,
+        user_id: user_id,
       },
-    }); */
+    });
   }
 
-  async deleteUser(id: string) {
-    return; /* await this.prisma.user.delete({
+  async deleteUser(user_id: string) {
+    return;
+    await this.prisma.user.delete({
       where: {
-        id: id,
+        user_id: user_id,
       },
-    }); */
+    });
   }
 }
