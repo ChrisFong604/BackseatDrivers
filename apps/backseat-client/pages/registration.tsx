@@ -13,11 +13,6 @@ const Registration = ({ schools }) => {
   // Pass the useFormik() hook initial form values and a submit function that will
   // be called when the form is submitted
 
-  useEffect(() => {
-    const schoolArray = JSON.stringify(schools);
-    console.log(schools);
-  });
-
   const formik = useFormik({
     initialValues: {
       email: '',
