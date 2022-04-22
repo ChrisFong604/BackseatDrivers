@@ -70,7 +70,7 @@ model User {
 }
 
 model Driver {
-  id      Int    @id @default(autoincrement())
+  id      String    @id @default(cuid())
   driver  User   @relation(fields: [user_id], references: [user_id])
   user_id String @unique
 
@@ -95,7 +95,7 @@ model Ride {
   passenger_requests Request[]
 
   driver    Driver @relation(fields: [driver_id], references: [id])
-  driver_id Int
+  driver_id String
 
   host_name          String
   phone_number       String

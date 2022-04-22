@@ -28,6 +28,42 @@ export class RidesService {
   //     }
   //   })
   // }
+  async createRide(driver_id: string): Promise<void | Ride>{
+    
+    const driverData = await this.prisma.driver.findUnique({
+      where: {
+        id: driver_id,
+       },
+    });
+
+    const userData = await this.prisma.user.findUnique({
+      where: {
+        user_id: driverData.user_id,
+       },
+    });
+
+    return  await this.prisma.ride.create({
+        data: {
+          driver: {
+            connect: {
+              id: driverData.id
+            }  
+          },
+          host_name: userData.first_name,
+          phone_number: userData.phone_number,
+          email: userData.email,
+          description: 'hihi',
+          is_full: false,
+          date_of_ride: 'idc',
+          number_of_seats: 4,
+          departure_location: 'my crib',
+          school_location: userData.school_name,    
+      },
+        
+    });
+    
+    
+  }
 
   async findAll(): Promise<Ride[] | null> {
     return this.prisma.ride.findMany();

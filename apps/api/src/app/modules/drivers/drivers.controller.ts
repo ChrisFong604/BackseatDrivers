@@ -6,8 +6,13 @@ export class DriversController {
   constructor(private readonly driversService: DriversService) {}
 
   @Post('driver/create/:id')
-  create(@Param('id') id: string) {
-    return this.driversService.createDriver(id);
+  createWithID(@Param('user_id') id: string) {
+    return this.driversService.createDriverFromID(id);
+  }
+
+  @Post('driver/email/:email')
+  createFromEmail(@Param('email') email: string){
+    return this.driversService.createDriverFromEmail(email);
   }
 
   @Get('drivers')

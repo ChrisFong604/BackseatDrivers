@@ -14,10 +14,10 @@ import { RidesService } from './rides.service';
 export class RidesController {
   constructor(private readonly ridesService: RidesService) {}
 
-  // @Post('ride/:id')
-  // create(@Param('id', ParseIntPipe) driver_id: number) {
-  //   return this.ridesService.createRide(driver_id);
-  // }
+  @Post('ride/:driver_id')
+   create(@Param('driver_id') driver_id: string) {
+     return this.ridesService.createRide(driver_id);
+  }
 
   @Get()
   findAll() {

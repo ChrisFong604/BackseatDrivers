@@ -23,7 +23,7 @@ CREATE TABLE "User" (
 
 -- CreateTable
 CREATE TABLE "Driver" (
-    "id" SERIAL NOT NULL,
+    "id" TEXT NOT NULL,
     "user_id" TEXT NOT NULL,
 
     CONSTRAINT "Driver_pkey" PRIMARY KEY ("id")
@@ -43,7 +43,7 @@ CREATE TABLE "Request" (
 -- CreateTable
 CREATE TABLE "Ride" (
     "ride_id" TEXT NOT NULL,
-    "driver_id" INTEGER NOT NULL,
+    "driver_id" TEXT NOT NULL,
     "host_name" TEXT NOT NULL,
     "phone_number" TEXT NOT NULL,
     "email" TEXT NOT NULL,

@@ -111,7 +111,8 @@ async function main() {
     ],
   });
 
-  const ChrisDriver = await prisma.user
+  
+  /* const ChrisDriver = await prisma.user
     .findUnique({
       where: { email: 'ccffoonngg@gmail.com' },
       select: {
@@ -123,12 +124,13 @@ async function main() {
         data: {
           driver: {
             connect: {
-              user_id: user.user_id,
+              user_id: user.user_id
             },
           },
         },
       });
-    });
+    }); */
+    
 
   // const Tyrone = await prisma.user.create({
   //   data: {
@@ -354,3 +356,4 @@ main()
   .finally(async () => {
     await prisma.$disconnect();
   });
+  
