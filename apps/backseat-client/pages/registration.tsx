@@ -15,10 +15,9 @@ const Registration = ({ schools }) => {
   // be called when the form is submitted
 
   async function submitUserData(values) {
-    const req = await JSON.stringify(values);
-    alert(req);
+    alert(JSON.stringify(values, null, 2));
     await axios
-      .post('http://localhost:3333/api/user/create', req)
+      .post('http://localhost:3333/api/user/create', values)
       .then(() => {
         console.log('success');
       })

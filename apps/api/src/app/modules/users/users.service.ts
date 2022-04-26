@@ -8,8 +8,10 @@ export class UsersService {
   constructor(private readonly prisma: PrismaService) {}
 
   async createUser(data: User): Promise<User> {
-    const salt = randomBytes(16).toString('hex');
-    const hashedPassword = scryptSync(data.password, salt, 64).toString('hex');
+    const salt = await randomBytes(16).toString('hex');
+    const hashedPassword = await scryptSync(data.password, salt, 64).toString(
+      'hex'
+    );
 
     const saltedHash = `${salt}:${hashedPassword}`;
 
