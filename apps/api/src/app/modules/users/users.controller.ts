@@ -8,15 +8,22 @@ import {
   Delete,
 } from '@nestjs/common';
 import { Prisma, User } from '@prisma/client';
+import { DriversService } from '../drivers/drivers.service';
 import { UsersService } from './users.service';
 
 @Controller()
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService, private readonly driversService: DriversService) {}
 
   @Post('user/create')
-  create(@Body() user: User) {
-    return this.usersService.createUser(user);
+  async create(@Body() user: User) {
+    process.stdout.write(JSON.stringify(user))
+    return  await this.usersService.createUser(user).then((userData)=> {
+      this.driversService.createDriverFromID(userData.user_id);
+      }
+    )
+    
+    
   }
 
   @Get('users')

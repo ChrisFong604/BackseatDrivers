@@ -7,9 +7,13 @@ export class DriversService {
   constructor(private prisma: PrismaService) {}
 
   async createDriverFromID(user_id: string): Promise<Driver> {
-    return await this.prisma.driver.create({
+    return  await this.prisma.driver.create({
       data: {
-        user_id: user_id
+        driver: {
+          connect: {
+            user_id: user_id,
+          },
+        },
       },
     });
   }
