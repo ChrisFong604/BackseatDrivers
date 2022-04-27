@@ -43,6 +43,12 @@ export class UsersService {
       where: {
         user_id: id,
       },
+      select: {
+        school_name: true,
+        first_name: true,
+        last_name: true,
+        phone_number: true,
+      },
     });
   }
 

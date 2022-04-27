@@ -36,7 +36,8 @@ export function Index() {
                 </svg>
                 <span>You&apos;re up and running</span>
               </h2>
-              <Link href={'/registration'}> What&apos;s next? </Link>
+              <Link href={'/login'}>Login</Link> <div></div>
+              <Link href={'/registration'}> Register </Link>
             </div>
             <div className="logo-container">
               <svg
