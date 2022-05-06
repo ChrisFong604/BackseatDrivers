@@ -4,44 +4,51 @@ import { Field, Form, Formik } from 'formik';
 
 export default function Login() {
   const [isAuthenticated, setAuthenticated] = useState(false);
+  const [token, setToken] = useState('');
 
   const [userID, setUserID] = useState(null);
   const [userMetaData, setUserMetaData] = useState(null);
 
-  async function getUserData(token) {
+  async function fetchAccessToken(values) {
     await axios
-      .get('http://localhost:3333/api/auth/protected?Bear', {
-        headers: { Authorization: `Bearer ${token.access_token}` },
-      })
-      .then((res) => {
-        setUserID(res.data);
-        setAuthenticated(true);
-      });
-
-    await axios
-      .get(`http://localhost:3333/api/user/${userID.id}`)
-      .then((res) => {
-        setUserMetaData(res.data);
-      });
-
-    alert(JSON.stringify(userMetaData));
-  }
-  async function loginWithCredentials(values) {
-    const token = await axios
       .post('http://localhost:3333/api/auth/login', values)
-      .then((res) => {
-        setAuthenticated(true);
-        return res.data;
-      })
-      .catch(() => {
-        setAuthenticated(false);
-        alert('Username or password is incorrect');
+      .then((res) => setToken(res.data))
+      .catch((err) => {
+        console.log(err);
       });
 
-    if (isAuthenticated === true) {
-      getUserData(token);
-    }
+    setAuthenticated(true);
   }
+
+  useEffect(() => {
+    async function validateAccessToken(res) {
+      await axios
+        .get('http://localhost:3333/api/auth/protected?Bear', {
+          headers: { Authorization: `Bearer ${res.access_token}` },
+        })
+        .then((res) => {
+          setUserID(res.data);
+        });
+    }
+    if (isAuthenticated) {
+      validateAccessToken(token);
+    }
+  }, [isAuthenticated]);
+
+  useEffect(() => {
+    async function getUserMetaData() {
+      await axios
+        .get(`http://localhost:3333/api/user/${userID.id}`)
+        .then((res) => {
+          setUserMetaData(res.data);
+        });
+      console.log(userMetaData);
+    }
+    if (isAuthenticated) {
+      setUserMetaData(getUserMetaData());
+    }
+    console.log(userMetaData);
+  }, [userID]);
 
   return (
     <>
@@ -51,7 +58,7 @@ export default function Login() {
           password: '',
         }}
         onSubmit={(values) => {
-          loginWithCredentials(values);
+          fetchAccessToken(values);
         }}
       >
         <Form>
