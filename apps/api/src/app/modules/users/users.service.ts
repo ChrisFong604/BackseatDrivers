@@ -24,15 +24,15 @@ export class UsersService {
     });
   }
 
-  async findUserById(id: string) {
+  async findUserById(user_id: string): Promise<User> {
     return await this.prisma.user.findUnique({
       where: {
-        user_id: id,
+        user_id: user_id,
       },
     });
   }
 
-  async findUserByEmail(email: string) {
+  async findUserByEmail(email: string): Promise<User> {
     return await this.prisma.user.findUnique({
       where: {
         email: email,
@@ -40,20 +40,20 @@ export class UsersService {
     });
   }
 
-  async updateUser(id: string, data: Prisma.UserUpdateInput) {
-    return; /* await this.prisma.user.update({
+  async updateUser(user_id: string, data: Prisma.UserUpdateInput) {
+    return await this.prisma.user.update({
       data,
       where: {
-        id: id,
+        user_id: user_id,
       },
-    }); */
+    });
   }
 
-  async deleteUser(id: string) {
-    return; /* await this.prisma.user.delete({
+  async deleteUser(user_id: string) {
+    return await this.prisma.user.delete({
       where: {
-        id: id,
+        user_id: user_id,
       },
-    }); */
+    });
   }
 }
