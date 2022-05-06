@@ -52,6 +52,7 @@ async function main() {
         first_name: 'Christopher',
         last_name: 'Fong',
         email: 'ccffoonngg@gmail.com',
+        password: 'abc!ghg#^%',
         phone_number: '604-441-7828',
       },
       {
@@ -59,6 +60,7 @@ async function main() {
         first_name: 'David',
         last_name: 'Lowe',
         email: 'drlowe@gmail.com',
+        password: 'dfhwe@##',
         phone_number: '604-808-1732',
       },
       {
@@ -66,6 +68,7 @@ async function main() {
         first_name: 'Kevin',
         last_name: 'Shi',
         email: 'kshi1738@gmail.com',
+        password: 'aosdgn#@gn09',
         phone_number: '778-108-1102',
       },
       {
@@ -73,6 +76,7 @@ async function main() {
         first_name: 'Hamla',
         last_name: 'Tzarifik',
         email: 'HamTza@hotmail.ca',
+        password: 'SDgnh47*787',
         phone_number: '778-441-7828',
       },
     ],
@@ -85,6 +89,7 @@ async function main() {
         first_name: 'Jeremy',
         last_name: 'Jackson',
         email: 'JJ@gmail.com',
+        password: 'aGi5j2y4',
         phone_number: '604-320-0525',
       },
       {
@@ -92,6 +97,7 @@ async function main() {
         first_name: 'Lavar',
         last_name: 'Ball',
         email: 'LavarBBB@gmail.com',
+        password: 'aGi5j2y4',
         phone_number: '604-451-0782',
       },
       {
@@ -99,6 +105,7 @@ async function main() {
         first_name: 'Lamelo',
         last_name: 'Ball',
         email: 'LameloBallBBB@gmail.com',
+        password: 'jh9gb8hn2',
         phone_number: '778-215-8284',
       },
     ],
