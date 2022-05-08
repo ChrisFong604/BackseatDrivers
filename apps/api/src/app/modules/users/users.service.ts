@@ -8,14 +8,11 @@ export class UsersService {
   constructor(private readonly prisma: PrismaService) {}
 
   async createUser(data: User): Promise<User> {
-    const salt = await randomBytes(16).toString('hex');
-    const hashedPassword = await scryptSync(data.password, salt, 64).toString(
-      'hex'
-    );
+    const salt = randomBytes(16).toString('hex');
+    const hashedPassword = scryptSync(data.password, salt, 64).toString('hex');
 
     const saltedHash = `${salt}:${hashedPassword}`;
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password, ...rest } = data;
 
     return await this.prisma.user.create({
@@ -38,21 +35,15 @@ export class UsersService {
     });
   }
 
-  async findUserById(id: string) {
+  async findUserById(user_id: string): Promise<User> {
     return await this.prisma.user.findUnique({
       where: {
-        user_id: id,
-      },
-      select: {
-        school_name: true,
-        first_name: true,
-        last_name: true,
-        phone_number: true,
+        user_id: user_id,
       },
     });
   }
 
-  async findUserByEmail(email: string) {
+  async findUserByEmail(email: string): Promise<User> {
     return await this.prisma.user.findUnique({
       where: {
         email: email,
