@@ -29,7 +29,6 @@ export class AuthService {
     const passwordMatch = timingSafeEqual(hashedBuffer, keyBuffer);
 
     if (user && passwordMatch) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { password, ...rest } = user;
       return rest;
     }
