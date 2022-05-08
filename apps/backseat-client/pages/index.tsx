@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import styles from './index.module.scss';
 
 export function Index() {
@@ -35,7 +36,8 @@ export function Index() {
                 </svg>
                 <span>You&apos;re up and running</span>
               </h2>
-              <a href="#commands"> What&apos;s next? </a>
+              <Link href={'/login'}>Login</Link> <div></div>
+              <Link href={'/registration'}> Register </Link>
             </div>
             <div className="logo-container">
               <svg

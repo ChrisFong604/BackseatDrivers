@@ -2,13 +2,27 @@ import { Injectable } from '@nestjs/common';
 import { Prisma, User } from '@prisma/client';
 import { PrismaService } from '../../prisma/prisma.service';
 
+import { scryptSync, randomBytes, createHash } from 'crypto';
 @Injectable()
 export class UsersService {
   constructor(private readonly prisma: PrismaService) {}
 
   async createUser(data: User): Promise<User> {
+    const salt = await randomBytes(16).toString('hex');
+    const hashedPassword = await scryptSync(data.password, salt, 64).toString(
+      'hex'
+    );
+
+    const saltedHash = `${salt}:${hashedPassword}`;
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password, ...rest } = data;
+
     return await this.prisma.user.create({
-      data,
+      data: {
+        password: saltedHash,
+        ...rest,
+      },
     });
   }
 
@@ -28,6 +42,12 @@ export class UsersService {
     return await this.prisma.user.findUnique({
       where: {
         user_id: user_id,
+      },
+      select: {
+        school_name: true,
+        first_name: true,
+        last_name: true,
+        phone_number: true,
       },
     });
   }
