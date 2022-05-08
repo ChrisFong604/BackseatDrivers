@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Res } from '@nestjs/common';
 
 import { JwtService } from '@nestjs/jwt';
 import { scryptSync, timingSafeEqual } from 'crypto';
