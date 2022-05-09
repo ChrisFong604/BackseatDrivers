@@ -2,25 +2,45 @@ import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { Field, Form, Formik } from 'formik';
 
+//Base API url
+const apiUrl = 'http://localhost:3333/api';
+
+axios.interceptors.request.use(
+  (config) => {
+    const { origin } = new URL(config.url);
+    const allowedOrigins = [apiUrl];
+    const token = localStorage.getItem('token');
+
+    if (allowedOrigins.includes(origin)) {
+      config.headers.authorization = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
 export default function Login() {
   const [isAuthenticated, setAuthenticated] = useState(false);
-  const [token, setToken] = useState('');
+
+  const [token, setToken] = useState(null);
+  const [fetchError, setFetchError] = useState(null);
 
   const [userID, setUserID] = useState(null);
   const [userMetaData, setUserMetaData] = useState(null);
 
   async function fetchAccessToken(values) {
-    await axios
-      .post('http://localhost:3333/api/auth/login', values)
-      .then((res) => setToken(res.data))
-      .catch((err) => {
-        console.log(err);
-      });
+    const { data } = await axios.post(
+      'http://localhost:3333/api/auth/login',
+      values
+    );
+    setToken(data.token);
 
-    setAuthenticated(true);
+    // setAuthenticated(true);
   }
 
-  useEffect(() => {
+  /* useEffect(() => {
     async function validateAccessToken(res) {
       await axios
         .get('http://localhost:3333/api/auth/protected?Bear', {
@@ -33,9 +53,9 @@ export default function Login() {
     if (isAuthenticated) {
       validateAccessToken(token);
     }
-  }, [isAuthenticated]);
+  }, [isAuthenticated]); */
 
-  useEffect(() => {
+  /* useEffect(() => {
     async function getUserMetaData() {
       await axios
         .get(`http://localhost:3333/api/user/${userID.id}`)
@@ -48,7 +68,7 @@ export default function Login() {
       setUserMetaData(getUserMetaData());
     }
     console.log(userMetaData);
-  }, [userID]);
+  }, [userID]); */
 
   return (
     <>
@@ -72,6 +92,12 @@ export default function Login() {
           <button type="submit">Submit</button>
         </Form>
       </Formik>
+      {token && (
+        <pre>
+          <code>{token}</code>
+        </pre>
+      )}
+      <div>{fetchError && <p>{fetchError}</p>}</div>
     </>
   );
 }

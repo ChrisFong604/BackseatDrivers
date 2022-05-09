@@ -9,7 +9,9 @@
       "defaultConfiguration": "production",
       "options": {
         "root": "apps/backseat-client",
-        "outputPath": "dist/apps/backseat-client"
+        "outputPath": "dist/apps/backseat-client",
+        "hostname": "localhost",
+        "proxy": "http://localhost:3333"
       },
       "configurations": {
         "production": {}
@@ -19,7 +21,8 @@
       "executor": "@nrwl/next:server",
       "options": {
         "buildTarget": "backseat-client:build",
-        "dev": true
+        "dev": true,
+        "proxyConfig": "apps/backseat-client/proxy.config.js"
       },
       "configurations": {
         "production": {

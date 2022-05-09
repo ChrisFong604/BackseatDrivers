@@ -9,6 +9,12 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 import { AppModule } from './app/app.module';
 
+/* Middleware packages */
+import * as cookieParser from 'cookie-parser';
+import * as csurf from 'csurf';
+import { ExtractJwt } from 'passport-jwt';
+import { jwtConstants } from './app/modules/auth/constants';
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
@@ -29,6 +35,10 @@ async function bootstrap() {
     credentials: true,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   });
+
+  /* Cookie handling for JWT auth */
+
+  app.use(cookieParser());
 
   const port = process.env.PORT || 3333;
 
