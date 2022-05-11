@@ -15,7 +15,12 @@ export class AuthController {
     @Res({ passthrough: true }) response: Response
   ): Promise<any> {
     const { token } = await this.authService.login(request.user);
-    response.cookie('token', token, { httpOnly: true });
+    response.cookie('token', token, {
+      httpOnly: false,
+      sameSite: false,
+      domain: 'http://localhost:4200',
+      maxAge: 86400,
+    });
 
     response.json({ token });
   }
