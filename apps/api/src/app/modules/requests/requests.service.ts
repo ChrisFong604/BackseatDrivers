@@ -1,24 +1,97 @@
-import { Injectable } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
+import { Request } from '@prisma/client';
+import { PrismaService } from '../../prisma/prisma.service';
 
 @Injectable()
 export class RequestsService {
-  create() {
-    return 'This action adds a new request';
+  constructor(private readonly prisma: PrismaService) {}
+
+  async create(passenger_id: string, ride_id: string, req: Request): Promise<Request> {
+    
+    const passenger = await this.prisma.user.findUnique({
+      where: {
+        user_id: passenger_id,
+      }
+    })
+
+    const ride = await this.prisma.ride.findUnique({
+      where: {
+        ride_id: ride_id,
+      }
+    })
+
+    return await this.prisma.request.create({
+      data: {
+        passenger_id: passenger.user_id,
+        requested_ride_id: ride.ride_id,
+        requester_location: req.requester_location,
+        status: false,
+      }
+    });
   }
 
-  findAll() {
-    return `This action returns all requests`;
+  async findAllRequestsForRide(ride_id: string): Promise<Request[]> {
+    return await this.prisma.request.findMany({
+      where: {
+        requested_ride_id: ride_id,
+      },
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} request`;
+  async findAllRequestsForUser(user_id: string): Promise<Request[]> {
+    return await this.prisma.request.findMany({
+      where: {
+        passenger_id: user_id,
+      },
+    });
   }
 
-  update(id: number) {
-    return `This action updates a #${id} request`;
+  async findRequestById(request_id: string) {
+    return await this.prisma.request.findUnique({
+      where: {
+        request_id: request_id,
+      },
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} request`;
+  async updateRequest(request_id: string, location: string) {
+    
+    const request = await this.prisma.request.findUnique({
+      where: {
+        request_id: request_id,
+      }
+    })
+    
+    if (request.status) {
+      throw new ForbiddenException('Cannot change location because the request is already accepted by the driver',);
+    }
+
+    return await this.prisma.request.update({
+      where: {
+        request_id: request_id,
+      },
+      data: {
+        requester_location: location,
+      }
+    });
+  }
+
+  async removeRequest(request_id: string) {
+    return await this.prisma.request.delete({
+      where: {
+        request_id: request_id,
+      },
+    });
+  }
+
+  async acceptRequest(request_id: string) {
+    return await this.prisma.request.update({
+      where: {
+        request_id: request_id,
+      },
+      data: {
+        status: true,
+      }
+    });
   }
 }
