@@ -28,7 +28,7 @@ export class RidesService {
   //     }
   //   })
   // }
-  async createRide(driver_id: string): Promise<void | Ride>{
+  async createRide(driver_id: string, ride: Ride): Promise<void | Ride>{
     
     const driverData = await this.prisma.driver.findUnique({
       where: {
@@ -52,11 +52,11 @@ export class RidesService {
           host_name: userData.first_name,
           phone_number: userData.phone_number,
           email: userData.email,
-          description: 'hihi',
-          is_full: false,
-          date_of_ride: 'idc',
-          number_of_seats: 4,
-          departure_location: 'my crib',
+          description: ride.description,
+          is_full: ride.is_full,
+          date_of_ride: ride.date_of_ride,
+          number_of_seats: ride.number_of_seats,
+          departure_location: ride.departure_location,
           school_location: userData.school_name,    
       },
         
@@ -69,14 +69,23 @@ export class RidesService {
     return this.prisma.ride.findMany();
   }
 
-  async findAvailableRidesForASchool(
-    school_name: string
+  
+  async findAllRidesSchool(
+    schoolName: string
   ): Promise<Ride[] | null> {
     return await this.prisma.ride.findMany({
-      where: {},
+      where: {
+        school_location: schoolName
+      },
     });
   }
-
+  
+  /*
+  async findAllRidesSchool(school_name: string) {
+    return `school name: ${school_name}`;
+  }
+  */
+ 
   findOne(id: number) {
     return `This action returns a ride`;
   }

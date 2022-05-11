@@ -21,9 +21,7 @@ export class UsersController {
     return  await this.usersService.createUser(user).then((userData)=> {
       this.driversService.createDriverFromID(userData.user_id);
       }
-    )
-    
-    
+    )  
   }
 
   @Get('users')

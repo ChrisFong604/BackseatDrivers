@@ -52,7 +52,7 @@ export class DriversService {
   }
   
   async deleteDriver(user_id: string) {
-    return;  await this.prisma.driver.delete({
+    return  await this.prisma.driver.delete({
       where: {
         user_id: user_id,
       },

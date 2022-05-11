@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Param, Delete, Put } from '@nestjs/common';
 import { DriversService } from './drivers.service';
 
 @Controller()
@@ -29,4 +29,5 @@ export class DriversController {
   deleteDriver(@Param('id') id: string) {
     return this.driversService.deleteDriver(id);
   }
+
 }
