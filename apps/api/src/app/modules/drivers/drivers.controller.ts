@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Param, Delete, Put } from '@nestjs/common';
 import { DriversService } from './drivers.service';
 
 @Controller()
@@ -6,8 +6,13 @@ export class DriversController {
   constructor(private readonly driversService: DriversService) {}
 
   @Post('driver/create/:id')
-  create(@Param('id') id: string) {
-    return this.driversService.createDriver(id);
+  createWithID(@Param('user_id') id: string) {
+    return this.driversService.createDriverFromID(id);
+  }
+
+  @Post('driver/email/:email')
+  createFromEmail(@Param('email') email: string){
+    return this.driversService.createDriverFromEmail(email);
   }
 
   @Get('drivers')
@@ -24,4 +29,5 @@ export class DriversController {
   deleteDriver(@Param('id') id: string) {
     return this.driversService.deleteDriver(id);
   }
+
 }
