@@ -2,13 +2,25 @@ import { Injectable } from '@nestjs/common';
 import { Prisma, User } from '@prisma/client';
 import { PrismaService } from '../../prisma/prisma.service';
 
+import { scryptSync, randomBytes, createHash } from 'crypto';
 @Injectable()
 export class UsersService {
   constructor(private readonly prisma: PrismaService) {}
 
   async createUser(data: User): Promise<User> {
+    const salt = randomBytes(16).toString('hex');
+    const hashedPassword = scryptSync(data.password, salt, 64).toString('hex');
+
+    const saltedHash = `${salt}:${hashedPassword}`;
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { password, ...rest } = data;
+
     return await this.prisma.user.create({
-      data,
+      data: {
+        password: saltedHash,
+        ...rest,
+      },
     });
   }
 
@@ -24,15 +36,15 @@ export class UsersService {
     });
   }
 
-  async findUserById(id: string) {
+  async findUserById(user_id: string): Promise<User> {
     return await this.prisma.user.findUnique({
       where: {
-        user_id: id,
+        user_id: user_id,
       },
     });
   }
 
-  async findUserByEmail(email: string) {
+  async findUserByEmail(email: string): Promise<User> {
     return await this.prisma.user.findUnique({
       where: {
         email: email,
@@ -40,20 +52,20 @@ export class UsersService {
     });
   }
 
-  async updateUser(id: string, data: Prisma.UserUpdateInput) {
-    return; /* await this.prisma.user.update({
+  async updateUser(user_id: string, data: Prisma.UserUpdateInput) {
+    return await this.prisma.user.update({
       data,
       where: {
-        id: id,
+        user_id: user_id,
       },
-    }); */
+    });
   }
 
-  async deleteUser(id: string) {
-    return; /* await this.prisma.user.delete({
+  async deleteUser(user_id: string) {
+    return await this.prisma.user.delete({
       where: {
-        id: id,
+        user_id: user_id,
       },
-    }); */
+    });
   }
 }

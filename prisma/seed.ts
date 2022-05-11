@@ -1,6 +1,7 @@
 // import { Prisma, PrismaClient } from '@prisma/client';
 // import { randomUUID } from 'crypto';
 import { PrismaClient } from '@prisma/client';
+import { randomBytes, scrypt, scryptSync } from 'crypto';
 
 const prisma = new PrismaClient();
 
@@ -45,92 +46,151 @@ async function main() {
     ],
   });
 
-  await prisma.user.createMany({
-    data: [
-      {
-        school_name: 'Simon Fraser University',
-        first_name: 'Christopher',
-        last_name: 'Fong',
-        email: 'ccffoonngg@gmail.com',
-        password: 'abc!ghg#^%',
-        phone_number: '604-441-7828',
+  const studentsSFU = [
+    {
+      school_name: 'Simon Fraser University',
+      first_name: 'Christopher',
+      last_name: 'Fong',
+      email: 'ccffoonngg@gmail.com',
+      password: 'abc!ghg#^%',
+      phone_number: '604-441-7828',
+    },
+    {
+      school_name: 'Simon Fraser University',
+      first_name: 'David',
+      last_name: 'Lowe',
+      email: 'drlowe@gmail.com',
+      password: 'dfhwe@##',
+      phone_number: '604-808-1732',
+    },
+    {
+      school_name: 'Simon Fraser University',
+      first_name: 'Kevin',
+      last_name: 'Shi',
+      email: 'kshi1738@gmail.com',
+      password: 'aosdgn#@gn09',
+      phone_number: '778-108-1102',
+    },
+    {
+      school_name: 'Simon Fraser University',
+      first_name: 'Hamla',
+      last_name: 'Tzarifik',
+      email: 'HamTza@hotmail.ca',
+      password: 'SDgnh47*787',
+      phone_number: '778-441-7828',
+    },
+  ];
+
+  studentsSFU.forEach(async (student) => {
+    const salt = randomBytes(16).toString('hex');
+    const hashedPassword = scryptSync(student.password, salt, 64).toString(
+      'hex'
+    );
+
+    const saltedHash = `${salt}:${hashedPassword}`;
+
+    const { password, ...rest } = student;
+
+    await prisma.user.create({
+      data: {
+        password: saltedHash,
+        ...rest,
       },
-      {
-        school_name: 'Simon Fraser University',
-        first_name: 'David',
-        last_name: 'Lowe',
-        email: 'drlowe@gmail.com',
-        password: 'dfhwe@##',
-        phone_number: '604-808-1732',
-      },
-      {
-        school_name: 'Simon Fraser University',
-        first_name: 'Kevin',
-        last_name: 'Shi',
-        email: 'kshi1738@gmail.com',
-        password: 'aosdgn#@gn09',
-        phone_number: '778-108-1102',
-      },
-      {
-        school_name: 'Simon Fraser University',
-        first_name: 'Hamla',
-        last_name: 'Tzarifik',
-        email: 'HamTza@hotmail.ca',
-        password: 'SDgnh47*787',
-        phone_number: '778-441-7828',
-      },
-    ],
+    });
   });
 
-  const studentsUBC = await prisma.user.createMany({
-    data: [
-      {
-        school_name: 'University of British Columbia',
-        first_name: 'Jeremy',
-        last_name: 'Jackson',
-        email: 'JJ@gmail.com',
-        password: 'aGi5j2y4',
-        phone_number: '604-320-0525',
+  const studentsUBC = [
+    {
+      school_name: 'University of British Columbia',
+      first_name: 'Jeremy',
+      last_name: 'Jackson',
+      email: 'JJ@gmail.com',
+      password: 'aGi5j2y4',
+      phone_number: '604-320-0525',
+    },
+    {
+      school_name: 'University of British Columbia',
+      first_name: 'Lavar',
+      last_name: 'Ball',
+      email: 'LavarBBB@gmail.com',
+      password: 'aGi5j2y4',
+      phone_number: '604-451-0782',
+    },
+    {
+      school_name: 'University of British Columbia',
+      first_name: 'Lamelo',
+      last_name: 'Ball',
+      email: 'LameloBallBBB@gmail.com',
+      password: 'jh9gb8hn2',
+      phone_number: '778-215-8284',
+    },
+  ];
+
+  studentsUBC.forEach(async (student) => {
+    const salt = randomBytes(16).toString('hex');
+    const hashedPassword = scryptSync(student.password, salt, 64).toString(
+      'hex'
+    );
+
+    const saltedHash = `${salt}:${hashedPassword}`;
+
+    const { password, ...rest } = student;
+
+    await prisma.user.create({
+      data: {
+        password: saltedHash,
+        ...rest,
       },
-      {
-        school_name: 'University of British Columbia',
-        first_name: 'Lavar',
-        last_name: 'Ball',
-        email: 'LavarBBB@gmail.com',
-        password: 'aGi5j2y4',
-        phone_number: '604-451-0782',
-      },
-      {
-        school_name: 'University of British Columbia',
-        first_name: 'Lamelo',
-        last_name: 'Ball',
-        email: 'LameloBallBBB@gmail.com',
-        password: 'jh9gb8hn2',
-        phone_number: '778-215-8284',
-      },
-    ],
+    });
   });
 
-  
-  /* const ChrisDriver = await prisma.user
-    .findUnique({
-      where: { email: 'ccffoonngg@gmail.com' },
-      select: {
-        user_id: true,
+  const studentsKPU = [
+    {
+      school_name: 'Kwantlen Polytechnic University',
+      first_name: 'Kelvin',
+      last_name: 'Liu',
+      email: 'KliuTing@hotmail.ca',
+      password: 'aGi5j2y4',
+      phone_number: '778-215-8290',
+    },
+  ];
+
+  studentsKPU.forEach(async (student) => {
+    const salt = randomBytes(16).toString('hex');
+    const hashedPassword = scryptSync(student.password, salt, 64).toString(
+      'hex'
+    );
+
+    const saltedHash = `${salt}:${hashedPassword}`;
+
+    const { password, ...rest } = student;
+
+    await prisma.user.create({
+      data: {
+        password: saltedHash,
+        ...rest,
       },
-    })
-    .then(async (user) => {
-      await prisma.driver.create({
-        data: {
-          driver: {
-            connect: {
-              user_id: user.user_id
-            },
-          },
-        },
-      });
-    }); */
-    
+    });
+  });
+
+  // const ChrisDriver = await prisma.user
+  //   .findUnique({
+  //     where: { email: 'ccffoonngg@gmail.com' },
+  //     select: {
+  //       user_id: true,
+  //     },
+  //   })
+  //   .then(async (user) => {
+  //     await prisma.driver.create({
+  //       data: {
+  //         driver: {
+  //           connect: {
+  //             user_id: user.user_id,
+  //           },
+  //         },
+  //       },
+  //     });
+  //   });
 
   // const Tyrone = await prisma.user.create({
   //   data: {

@@ -19,4 +19,12 @@ The prisma client is a javascript library generated from the prisma schema. Make
 run:
 npx prisma generate
 
-3. For anything else, refer to the CLI docs, or run: npx prisma --help
+3. To reset the database records and seed the database, run:
+
+   npx prisma migrate reset
+
+   npx prisma db seed
+
+This will reseed the database with data from the seeding file.
+
+4. For anything else, refer to the CLI docs, or run: npx prisma --help
