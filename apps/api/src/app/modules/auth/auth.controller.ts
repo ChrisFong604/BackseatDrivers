@@ -1,5 +1,5 @@
 import { Controller, Get, Post, Req, Res, UseGuards } from '@nestjs/common';
-import { Request, Response } from 'express';
+import { request, Request, Response } from 'express';
 import { AuthService } from './auth.service';
 import { JwtAuthGuard } from './jwt-Auth.guard';
 import { LocalAuthGuard } from './local-auth.guard';
@@ -16,7 +16,7 @@ export class AuthController {
   ): Promise<any> {
     const { token } = await this.authService.login(request.user);
     response.cookie('token', token, {
-      httpOnly: false,
+      httpOnly: true,
       sameSite: false,
       domain: 'http://localhost:4200',
       maxAge: 86400,
@@ -28,6 +28,7 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @Get('protected')
   getLoginRequest(@Req() req): string {
+    console.log(request.cookies);
     return req.user;
   }
 }

@@ -1,28 +1,25 @@
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
+import cookie from 'cookie';
 import React, { useState, useEffect } from 'react';
 import { Field, Form, Formik } from 'formik';
 
 //Base API url
 const apiUrl = 'http://localhost:3333/api';
 
-axios.interceptors.request.use(
-  (config) => {
-    const { origin } = new URL(config.url);
-    const allowedOrigins = [apiUrl];
-    const token = localStorage.getItem('token');
+axios.create({
+  baseURL: apiUrl,
+  timeout: 1000,
+  headers: {},
+});
 
-    if (allowedOrigins.includes(origin)) {
-      config.headers.authorization = `Bearer ${token}`;
-    }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
+function parseCookies(req) {
+  return cookie.parse(req ? req.headers.cookie || '' : document.cookie);
+}
 
 export default function Login() {
+  const [authenticated, setAuthenticated] = useState(false);
+
   const [token, setToken] = useState(null);
   const [fetchError, setFetchError] = useState(null);
 
@@ -36,6 +33,7 @@ export default function Login() {
       .post('http://localhost:3333/api/auth/login', values)
       .then((res) => {
         setFetchError(null);
+        setAuthenticated(true);
         setToken(res.data.token);
         setCookie('user', JSON.stringify(res.data), {
           path: '/',
@@ -47,10 +45,18 @@ export default function Login() {
   }
 
   useEffect(() => {
-    async function validateAccessToken(res) {
-      await axios.get('http://localhost:3333/api/auth/protected?Bear', {
-        headers: { Cookie: `token=${token}` },
-      });
+    async function validateAccessToken() {
+      await axios
+        .get('http://localhost:3333/api/auth/protected', {
+          withCredentials: true,
+        })
+        .then((res) => {
+          setUserMetaData(res.data);
+          console.log(JSON.stringify(res.data));
+        });
+    }
+    if (authenticated) {
+      validateAccessToken();
     }
   });
 
