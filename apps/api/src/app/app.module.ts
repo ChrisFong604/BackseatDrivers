@@ -28,10 +28,13 @@ import { PrismaService } from './prisma/prisma.service';
   providers: [
     AppService,
     PrismaService,
-    {
+
+    //Below provider will enable JWT authentication across all endpoints in the app.
+
+    /* {
       provide: APP_GUARD,
       useClass: JwtAuthGuard,
-    },
+    }, */
   ],
 })
 export class AppModule {}
