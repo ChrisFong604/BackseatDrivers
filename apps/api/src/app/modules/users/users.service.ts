@@ -13,7 +13,6 @@ export class UsersService {
 
     const saltedHash = `${salt}:${hashedPassword}`;
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password, ...rest } = data;
 
     return await this.prisma.user.create({
