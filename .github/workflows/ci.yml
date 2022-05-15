@@ -1,14 +1,15 @@
 name: CI
-on:
-  push:
-    branches:
-      - main
-  pull_request:
 
 env:
   NX_CLOUD_DISTRIBUTED_EXECUTION: true
   IS_PUBLIC_KEY: ${{ env.IS_PUBLIC_KEY }}
   JWT_KEY: ${{ env.JWT_KEY }}
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
 
 jobs:
   main:
