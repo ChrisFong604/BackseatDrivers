@@ -7,6 +7,8 @@ on:
 
 env:
   NX_CLOUD_DISTRIBUTED_EXECUTION: true
+  IS_PUBLIC_KEY: ${{ env.IS_PUBLIC_KEY }}
+  JWT_KEY: ${{ env.JWT_KEY }}
 
 jobs:
   main:
