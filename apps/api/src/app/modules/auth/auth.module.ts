@@ -13,7 +13,7 @@ import { jwtConstants } from './constants';
     UsersModule,
     PassportModule,
     JwtModule.register({
-      secret: jwtConstants.secret, // put env variables here
+      secret: process.env.JWT_KEY || 'googoogaga', // put env variables here
       signOptions: { expiresIn: '60s' },
     }),
   ],
