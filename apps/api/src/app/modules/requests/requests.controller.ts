@@ -7,34 +7,45 @@ import {
   Param,
   Delete,
 } from '@nestjs/common';
+import { Request } from '@prisma/client';
 import { RequestsService } from './requests.service';
 
 @Controller('requests')
 export class RequestsController {
   constructor(private readonly requestsService: RequestsService) {}
 
-  @Post()
-  create() {
-    return this.requestsService.create();
+  @Post('create/:passenger_id/:ride_id')
+  create(@Param('passenger_id') passenger_id: string, @Param('ride_id') ride_id: string, @Body() req: Request) {
+    return this.requestsService.create(passenger_id, ride_id, req);
   }
 
-  @Get()
-  findAll() {
-    return this.requestsService.findAll();
+  @Get(':ride_id')
+  getAllRequestsForRide(@Param('ride_id') ride_id: string) {
+    return this.requestsService.findAllRequestsForRide(ride_id);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.requestsService.findOne(+id);
+  @Get(':user_id')
+  getAllRequestsForUser(@Param('user_id') user_id: string) {
+    return this.requestsService.findAllRequestsForUser(user_id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string) {
-    return this.requestsService.update(+id);
+  @Get(':request_id')
+  findOne(@Param('request_id') request_id: string) {
+    return this.requestsService.findRequestById(request_id);
   }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.requestsService.remove(+id);
+  @Patch('update/:request_id/:location')
+  update(@Param('request_id') request_id: string, @Param('location') location: string) {
+    return this.requestsService.updateRequest(request_id, location);
+  }
+
+  @Delete(':request_id')
+  remove(@Param('request_id') request_id: string) {
+    return this.requestsService.removeRequest(request_id);
+  }
+
+  @Patch(':request_id/accepted')
+  accept(@Param('request_id') request_id: string) {
+    return this.requestsService.acceptRequest(request_id);
   }
 }
